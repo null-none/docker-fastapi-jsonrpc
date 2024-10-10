@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    container_name: app
+    command: python main.py
+    volumes:
+      - ./:/src/
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL=postgresql://fastapi:fastapi@db/fastapi
+
+  db:
+    image: postgres:12.1-alpine
+    container_name: db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=fastapi
+      - POSTGRES_PASSWORD=fastapi
+      - POSTGRES_DB=fastapi
+
+volumes:
+  postgres_data:
